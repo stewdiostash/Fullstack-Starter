@@ -1,7 +1,12 @@
 // Dependencies
 const express = require("express");
 const exphbrs = require("express-handlebars");
+const handlebars = require("handlebars");
+const {
+  allowInsecurePrototypeAccess,
+} = require("@handlebars/allow-prototype-access");
 const db = require("./models");
+const thingsController = require("./controllers/thingsController");
 
 // Sets up the Express App
 const app = express();
@@ -12,24 +17,32 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Handlebars middleware
-app.engine("handlebars", exphbrs({ defaultLayout: "main" }));
+app.engine(
+  "handlebars",
+  exphbrs({
+    defaultLayout: "main",
+    handlebars: allowInsecurePrototypeAccess(handlebars),
+  })
+);
 app.set("view engine", "handlebars");
 
-// Route test
-app.get("/", (req,res) => {
-    res.render("index");
-})
+app.use(thingsController);
 
-app.get("/api/config", (req,res) => {
-    res.json({
-        success: true,
-    })
+// Route test
+app.get("/", (req, res) => {
+  res.render("index");
+});
+
+app.get("/api/config", (req, res) => {
+  res.json({
+    success: true,
+  });
 });
 
 // Starts the server to begin listening
-db.sequelize.sync().then(function() {
-    app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`)
-    });    
-})
-
+// db.sequelize.sync({force:true}).then(function () {
+db.sequelize.sync().then(function () {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+});

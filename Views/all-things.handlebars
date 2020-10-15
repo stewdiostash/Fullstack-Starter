@@ -1,0 +1,11 @@
+<h1>All things will go here</h1>
+
+{{#each allThings}}
+    <div>
+        {{name}} - {{price}}
+        <a href="/thing/{{id}}"><button>View</button></a>
+        <button>Edit</button>
+        <button>Delete</button>
+    </div>
+{{/each}}
+
