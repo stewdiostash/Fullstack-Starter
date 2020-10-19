@@ -2,6 +2,7 @@
 const express = require("express");
 const exphbrs = require("express-handlebars");
 const db = require("./models");
+const thingsController = require("./controllers/thingsController");
 
 // Sets up the Express App
 const app = express();
@@ -20,11 +21,15 @@ app.get("/", (req,res) => {
     res.render("index");
 })
 
+app.use(thingsController);
+
 app.get("/api/config", (req,res) => {
     res.json({
         success: true,
     })
 });
+
+
 
 // Starts the server to begin listening
 db.sequelize.sync().then(function() {
