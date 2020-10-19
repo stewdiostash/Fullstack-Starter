@@ -4,27 +4,27 @@ const db = require("../models");
 
 // VIEWS ROUTES
 
-router.get("/things", (req, res) => {
+router.get("/thing", (req, res) => {
   db.Thing.findAll().then((allThings) => {
     res.render("all-things", { allThings: allThings });
   });
 });
 
-router.get("/things/new", (req, res) => {
+router.get("/thing/new", (req, res) => {
   res.render("new-thing");
 });
 
-router.get("/things/:id", (req, res) => {
+router.get("/thing/:id", (req, res) => {
   res.render("single-thing");
 });
 
-router.get("/things/:id/edit", (req, res) => {
+router.get("/thing/:id/edit", (req, res) => {
   res.render("edit-thing");
 });
 
 // API ROUTERS
 
-router.post("/api/things", (req, res) => {
+router.post("/api/thing", (req, res) => {
   db.Thing.create(req.body)
     .then((newThing) => {
       res.json({
