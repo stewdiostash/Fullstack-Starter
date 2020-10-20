@@ -1,1 +1,31 @@
 <h1>A form to edit a thing will go here</h1>
+
+{{name}}
+{{price}}
+
+<form id="edit-thing">
+    <input type="text" name="" value="{{name}}" id="name-input">
+    <input type="text" name="" value="{{price}}" id="price-input">
+    <input type="hidden" value="{{id}}" id="id-input">
+    <button>Submit changes</button>
+</form>
+
+<script>
+    $("#edit-thing").on("submit", function(event){
+        event.preventDefault();
+        const name = $("#name-input").val();
+        const price = $("#price-input").val();
+        const id = $("#id-input").val();
+
+        $.ajax({
+            url: `/api/thing/${id}`,
+            method: "PUT",
+            data: {
+                name: name,
+                price: price,
+            }
+        }).then(function(){
+            window.location.replace(`/thing/${id}`)
+        })
+    })
+</script>
